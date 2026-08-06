@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookMyStay | Travel & Booking Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1444195330770-e71cea727188?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 51, 102, 0.7);
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+
+        /* Search Section */
+        .search-section {
+            max-width: 1400px;
+            margin: -3rem auto 3rem;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-form {
+            background: #fcd34d;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .search-btn {
+            background-color: #0066cc;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            align-self: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .search-btn:hover {
+            background-color: #004499;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Hotels Grid */
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hotel-card {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .hotel-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .hotel-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .hotel-content {
+            padding: 1.5rem;
+        }
+
+        .hotel-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 0.5rem;
+        }
+
+        .hotel-city {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .hotel-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .rating-badge {
+            background-color: #0066cc;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .rating-text {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 1rem;
+        }
+
+        .view-btn {
+            width: 100%;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .view-btn:hover {
+            background-color: #004499;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 3rem 1rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .cta-btn {
+            background-color: white;
+            color: #0066cc;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background-color: #f0f9ff;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .search-btn {
+                align-self: stretch;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hotels-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">BookMyStay</div>
+            <nav>
+                <a href="index.html" style="color: #0066cc;">Home</a>
+                <a href="stays.html">Stays</a>
+                <a href="flights.html">Flights</a>
+                <a href="carrentals.html">Car Rentals</a>
+                <a href="attractions.html">Attractions</a>
+                <a href="contact.html">Contact</a>
+                <a href="signin.html">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find Your Next Stay</h1>
+            <p>Search low prices on hotels, homes and much more...</p>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <form class="search-form" onsubmit="handleSearch(event)">
+            <div class="form-group">
+                <label for="location">📍 Location</label>
+                <input type="text" id="location" name="location" placeholder="Where are you going?" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkIn">📅 Check-In</label>
+                <input type="date" id="checkIn" name="checkIn" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkOut">📅 Check-Out</label>
+                <input type="date" id="checkOut" name="checkOut" required>
+            </div>
+
+            <div class="form-group">
+                <label for="guests">👥 Guests</label>
+                <select id="guests" name="guests" style="padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
+                    <option value="1">1 Guest</option>
+                    <option value="2" selected>2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5+ Guests</option>
+                </select>
+            </div>
+
+            <button type="submit" class="search-btn">🔍 Search</button>
+        </form>
+    </section>
+
+    <!-- Trending Destinations -->
+    <section class="content">
+        <h2 class="section-title">Trending Destinations</h2>
+        <div class="hotels-grid" id="hotelsGrid">
+            <!-- Hotels will be inserted here by JavaScript -->
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Explore More Travel Options</h2>
+            <p>Discover flights, car rentals, and amazing attractions</p>
+            <div class="cta-buttons">
+                <a href="flights.html" class="cta-btn">✈️ Find Flights</a>
+                <a href="carrentals.html" class="cta-btn">🚗 Rent a Car</a>
+                <a href="attractions.html" class="cta-btn">📍 Find Attractions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const hotels = [
+            {
+                id: 1,
+                name: "Grand Hyatt Mumbai",
+                city: "Mumbai, India",
+                rating: 8.9,
+                ratingText: "Excellent",
+                price: 12500,
+                image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 2,
+                name: "Taj Lake Palace",
+                city: "Udaipur, India",
+                rating: 9.5,
+                ratingText: "Exceptional",
+                price: 25000,
+                image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 3,
+                name: "Goa Beach Resort",
+                city: "Goa, India",
+                rating: 8.2,
+                ratingText: "Very Good",
+                price: 6500,
+                image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+
+        function initializeHotels() {
+            const grid = document.getElementById('hotelsGrid');
+            grid.innerHTML = hotels.map(hotel => `
+                <div class="hotel-card" onclick="goToBooking(${hotel.id})">
+                    <img src="${hotel.image}" alt="${hotel.name}">
+                    <div class="hotel-content">
+                        <div class="hotel-name">${hotel.name}</div>
+                        <div class="hotel-city">${hotel.city}</div>
+                        <div class="hotel-footer">
+                            <div>
+                                <span class="rating-badge">${hotel.rating}</span>
+                                <span class="rating-text">${hotel.ratingText}</span>
+                            </div>
+                        </div>
+                        <div class="price">₹${hotel.price.toLocaleString('en-IN')}</div>
+                        <button class="view-btn">View Deal</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            window.location.href = 'stays.html';
+        }
+
+        function goToBooking(hotelId) {
+            window.location.href = 'stays.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeHotels);
+    </script>
+</body>
+</html>

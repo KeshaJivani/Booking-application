@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Attractions | BookMyStay</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: bold; color: #0066cc; }
+        nav { display: flex; gap: 2rem; }
+        nav a { text-decoration: none; color: #666; font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: #0066cc; }
+
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+        .search-section {
+            max-width: 1400px;
+            margin: -2rem auto 2rem;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-form {
+            background: #fcd34d;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .search-btn {
+            background-color: #0066cc;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            align-self: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .search-btn:hover { background-color: #004499; }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .filter-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #fcd34d;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .filter-item input { cursor: pointer; }
+        .filter-item label { cursor: pointer; font-size: 0.9rem; }
+
+        .attractions-section { background: white; }
+        .attractions-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; }
+
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .attraction-card {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .attraction-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .attraction-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .attraction-content {
+            padding: 1.5rem;
+        }
+
+        .attraction-name {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 0.25rem;
+        }
+
+        .attraction-location {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: #f3f4f6;
+            color: #0066cc;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .rating-reviews {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .rating-stars { color: #fcd34d; font-weight: bold; }
+        .review-count { color: #6b7280; }
+
+        .price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 1rem;
+        }
+
+        .book-btn {
+            width: 100%;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .book-btn:hover { background-color: #004499; }
+
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content { grid-template-columns: 1fr; }
+            .filters { position: static; }
+            .attractions-grid { grid-template-columns: 1fr; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">BookMyStay</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="stays.html">Stays</a>
+                <a href="flights.html">Flights</a>
+                <a href="carrentals.html">Car Rentals</a>
+                <a href="attractions.html" style="color: #0066cc;">Attractions</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Explore Attractions</h1>
+            <p>Discover amazing places and unforgettable experiences worldwide</p>
+        </div>
+    </section>
+
+    <section class="search-section">
+        <form class="search-form" onsubmit="handleSearch(event)">
+            <div class="form-group">
+                <label for="city">📍 Which city?</label>
+                <input type="text" id="city" placeholder="City name" required>
+            </div>
+            <div class="form-group">
+                <label for="date">📅 Date</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="visitors">👥 Number of visitors</label>
+                <select id="visitors" style="padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
+                    <option value="1">1 Person</option>
+                    <option value="2" selected>2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4">4+ People</option>
+                </select>
+            </div>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </section>
+
+    <div class="main-content">
+        <div class="filters">
+            <div class="filter-title">Filter Attractions</div>
+
+            <div class="filter-section">
+                <h4>Budget</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="budget1">
+                    <label for="budget1">Free Entry</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="budget2">
+                    <label for="budget2">₹0 - ₹500</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="budget3">
+                    <label for="budget3">₹500+</label>
+                </div>
+            </div>
+
+            <div class="filter-section" style="border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+                <h4>Category</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="cat1">
+                    <label for="cat1">Historical Sites</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="cat2">
+                    <label for="cat2">Museums</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="cat3">
+                    <label for="cat3">Nature</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="cat4">
+                    <label for="cat4">Adventure</label>
+                </div>
+            </div>
+
+            <div class="filter-section" style="border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+                <h4>Rating</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="rating1">
+                    <label for="rating1">4.5+ Stars</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="rating2">
+                    <label for="rating2">3.5+ Stars</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="attractions-section">
+            <h2 class="attractions-title">Popular Attractions</h2>
+            <div class="attractions-grid" id="attractionsList"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const attractions = [
+            { id: 1, name: "Taj Mahal", location: "Agra, India", price: 250, category: "Historical Site", rating: 9.5, reviews: 2847, image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "Gateway of India", location: "Mumbai, India", price: 0, category: "Historical Site", rating: 8.8, reviews: 1923, image: "https://images.unsplash.com/photo-1489749798305-4fea3ba63d60?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "Hawa Mahal", location: "Jaipur, India", price: 200, category: "Historical Site", rating: 8.5, reviews: 1456, image: "https://images.unsplash.com/photo-1587474260584-136574528ee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "National Museum", location: "New Delhi, India", price: 600, category: "Museum", rating: 8.3, reviews: 834, image: "https://images.unsplash.com/photo-1564788651474-1b5ff3e8be6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "Backwaters Cruise", location: "Kochi, India", price: 800, category: "Nature", rating: 9.0, reviews: 1678, image: "https://images.unsplash.com/photo-1511576661531-b34c7c8e32b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "Bungee Jumping", location: "Rishikesh, India", price: 4500, category: "Adventure", rating: 9.2, reviews: 612, image: "https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        function initializeAttractions() {
+            const attractionsList = document.getElementById('attractionsList');
+            attractionsList.innerHTML = attractions.map(attraction => `
+                <div class="attraction-card">
+                    <img src="${attraction.image}" alt="${attraction.name}" class="attraction-image">
+                    <div class="attraction-content">
+                        <div class="attraction-name">${attraction.name}</div>
+                        <div class="attraction-location">📍 ${attraction.location}</div>
+                        <div class="category-badge">${attraction.category}</div>
+                        <div class="rating-reviews">
+                            <span class="rating-stars">★ ${attraction.rating}</span>
+                            <span class="review-count">(${attraction.reviews} reviews)</span>
+                        </div>
+                        <div class="price">${attraction.price === 0 ? 'Free Entry' : '₹' + attraction.price}</div>
+                        <a href="attractiondetails.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            alert('Search functionality active!');
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeAttractions);
+    </script>
+</body>
+</html>

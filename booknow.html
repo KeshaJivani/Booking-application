@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Perfect Stay | BookMyStay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Search Section */
+        .search-section {
+            max-width: 1400px;
+            margin: -3rem auto 3rem;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-form {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .search-btn {
+            background-color: #0066cc;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            align-self: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .search-btn:hover {
+            background-color: #004499;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 2rem;
+        }
+
+        /* Properties Grid */
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .property-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .property-content {
+            padding: 1.5rem;
+        }
+
+        .property-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-location {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .property-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .price-section p {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .rating {
+            text-align: right;
+        }
+
+        .rating-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .rating-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #eab308;
+        }
+
+        .view-btn {
+            width: 100%;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .view-btn:hover {
+            background-color: #004499;
+        }
+
+        /* Why Book Section */
+        .why-book {
+            background-color: #f9fafb;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+
+        .why-book-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .why-book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .why-card {
+            text-align: center;
+        }
+
+        .why-card-icon {
+            width: 64px;
+            height: 64px;
+            background-color: #dbeafe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+        }
+
+        .why-card h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .why-card p {
+            color: #6b7280;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.875rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .search-btn {
+                align-self: stretch;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">BookMyStay</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="booknow.html" style="color: #0066cc;">Book Now</a>
+                <a href="listproperty.html">List Property</a>
+                <a href="signin.html">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Book Your Perfect Stay</h1>
+            <p>Find and book the best accommodations for your next adventure</p>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <form class="search-form" onsubmit="handleSearch(event)">
+            <div class="form-group">
+                <label for="location">📍 Location</label>
+                <input type="text" id="location" name="location" placeholder="e.g., Mumbai" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkIn">📅 Check-In</label>
+                <input type="date" id="checkIn" name="checkIn" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkOut">📅 Check-Out</label>
+                <input type="date" id="checkOut" name="checkOut" required>
+            </div>
+
+            <div class="form-group">
+                <label for="guests">👥 Guests</label>
+                <select id="guests" name="guests" required>
+                    <option value="1">1 Guest</option>
+                    <option value="2" selected>2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5 Guests</option>
+                    <option value="6">6 Guests</option>
+                </select>
+            </div>
+
+            <button type="submit" class="search-btn">🔍 Search</button>
+        </form>
+    </section>
+
+    <!-- Featured Properties -->
+    <section class="content">
+        <h2 class="section-title">Featured Properties</h2>
+        <div class="properties-grid" id="propertiesGrid">
+            <!-- Properties will be inserted here by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Why Book Section -->
+    <section class="why-book">
+        <div class="why-book-content">
+            <h2 class="section-title">Why Book With BookMyStay?</h2>
+            <div class="why-book-grid">
+                <div class="why-card">
+                    <div class="why-card-icon">✓</div>
+                    <h3>Best Prices</h3>
+                    <p>Guaranteed lowest prices or we'll match any offer you find</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-card-icon">🔒</div>
+                    <h3>Secure Booking</h3>
+                    <p>Your payments and data are protected with bank-level security</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-card-icon">📞</div>
+                    <h3>24/7 Support</h3>
+                    <p>Our customer support team is always available to help you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Properties data
+        const properties = [
+            {
+                id: 1,
+                name: "Grand Hyatt Mumbai",
+                location: "Santacruz East, Mumbai",
+                image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                price: 12000,
+                rating: 4.8
+            },
+            {
+                id: 2,
+                name: "The Taj Mahal Palace",
+                location: "Colaba, Mumbai",
+                image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                price: 15000,
+                rating: 4.9
+            },
+            {
+                id: 3,
+                name: "ITC Maratha",
+                location: "Andheri East, Mumbai",
+                image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                price: 10000,
+                rating: 4.7
+            }
+        ];
+
+        // Initialize properties grid
+        function initializeProperties() {
+            const grid = document.getElementById('propertiesGrid');
+            grid.innerHTML = properties.map(property => `
+                <div class="property-card" onclick="goToDetails(${property.id})">
+                    <img src="${property.image}" alt="${property.name}">
+                    <div class="property-content">
+                        <div class="property-name">${property.name}</div>
+                        <div class="property-location">📍 ${property.location}</div>
+                        <div class="property-footer">
+                            <div class="price-section">
+                                <p>Price per night</p>
+                                <div class="price">₹${property.price.toLocaleString('en-IN')}</div>
+                            </div>
+                            <div class="rating">
+                                <div class="rating-label">Rating</div>
+                                <div class="rating-value">★ ${property.rating}</div>
+                            </div>
+                        </div>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            const location = document.getElementById('location').value;
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            const guests = document.getElementById('guests').value;
+
+            // Store search data in sessionStorage
+            sessionStorage.setItem('searchData', JSON.stringify({
+                location,
+                checkIn,
+                checkOut,
+                guests
+            }));
+
+            // Navigate to view details
+            window.location.href = 'viewdetails.html';
+        }
+
+        function goToDetails(propertyId) {
+            // Store selected property ID
+            sessionStorage.setItem('selectedPropertyId', propertyId);
+            window.location.href = 'viewdetails.html';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeProperties);
+    </script>
+</body>
+</html>

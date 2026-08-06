@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Your Property | BookMyStay</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: bold; color: #0066cc; }
+        nav { display: flex; gap: 2rem; }
+        nav a { text-decoration: none; color: #666; font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: #0066cc; }
+
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .benefit-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 0.75rem;
+            padding: 2rem;
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .get-started-btn {
+            background: white;
+            color: #0066cc;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .get-started-btn:hover {
+            background: #f0f9ff;
+            transform: scale(1.05);
+        }
+
+        .process-section {
+            margin-bottom: 3rem;
+        }
+
+        .process-section h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .process-step h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .process-step p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+
+        .faq-item h4 {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-item p {
+            color: #6b7280;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .faq-grid { grid-template-columns: 1fr; }
+            .cta-section h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">BookMyStay</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="stays.html">Stays</a>
+                <a href="contact.html">Contact</a>
+                <a href="signin.html">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>List Your Property</h1>
+        <p>Earn money by renting out your property on BookMyStay</p>
+    </section>
+
+    <div class="content">
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">📈</div>
+                <h3>Increase Revenue</h3>
+                <p>Reach millions of travelers and earn consistent income from your property.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">🔒</div>
+                <h3>Secure & Safe</h3>
+                <p>We provide protection and secure payment processing for all transactions.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">🏠</div>
+                <h3>Easy Management</h3>
+                <p>Simple tools to manage bookings, guests, and property information.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">📞</div>
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock customer support to help you with any questions.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Start Earning?</h2>
+            <p>The listing process is simple and takes just a few minutes</p>
+            <button class="get-started-btn" onclick="handleGetStarted()">Get Started</button>
+        </div>
+
+        <div class="process-section">
+            <h2>How It Works</h2>
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Create Your Listing</h3>
+                    <p>Add property details, photos, and pricing information</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Set Your Price</h3>
+                    <p>Choose your nightly rates and availability calendar</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Verify Your Details</h3>
+                    <p>Complete verification to start accepting bookings</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Start Earning</h3>
+                    <p>Accept bookings and receive payments directly</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="process-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>How much can I earn?</h4>
+                    <p>Your earnings depend on your property's location, season, and pricing strategy. Many hosts earn thousands per month.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>What if I get a booking?</h4>
+                    <p>You'll receive a notification immediately. You can accept or decline based on your availability and preferences.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>How do I set prices?</h4>
+                    <p>You have full control over pricing. You can set different rates for different seasons and adjust them anytime.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>What about taxes?</h4>
+                    <p>We handle payment processing, but you're responsible for any local taxes on earnings. Consult with a tax professional.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>Can I list multiple properties?</h4>
+                    <p>Yes! Many hosts manage multiple properties through a single BookMyStay account.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>What commission does BookMyStay take?</h4>
+                    <p>We charge a standard service fee of 15% on each booking. This includes support and marketing.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function handleGetStarted() {
+            alert('Thank you for your interest! Redirecting to the listing form...');
+            window.location.href = 'signin.html';
+        }
+    </script>
+</body>
+</html>

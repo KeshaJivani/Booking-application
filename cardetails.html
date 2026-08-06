@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental Details | BookMyStay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background-color: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+
+        .breadcrumb-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Gallery */
+        .gallery {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .gallery-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .gallery-thumbnails img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-thumbnails img:hover {
+            opacity: 0.8;
+        }
+
+        /* Car Info */
+        .car-info {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .car-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .car-title h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-type {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .rating-section {
+            text-align: right;
+        }
+
+        .rating-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #eab308;
+            margin-bottom: 0.25rem;
+        }
+
+        .rating-count {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Specifications */
+        .specifications {
+            margin-bottom: 2rem;
+        }
+
+        .specifications h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .spec-item {
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .spec-label {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.95rem;
+        }
+
+        /* Features */
+        .features {
+            margin-bottom: 2rem;
+        }
+
+        .features h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background-color: #f0f9ff;
+            border-radius: 0.375rem;
+            border: 1px solid #bfdbfe;
+        }
+
+        .feature-item span {
+            color: #1f2937;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Policies */
+        .policies {
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .policies h3 {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .policies ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .policies li {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .policies li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            height: fit-content;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            position: sticky;
+            top: 100px;
+        }
+
+        .price-display {
+            margin-bottom: 1.5rem;
+        }
+
+        .price-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+            font-size: 0.9rem;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .price-breakdown {
+            border-top: 1px solid #d1d5db;
+            padding-top: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #6b7280;
+        }
+
+        .breakdown-item.total {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 1rem;
+            border-top: 1px solid #d1d5db;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .total-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #004499;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: white;
+            color: #0066cc;
+            border: 1px solid #0066cc;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f9ff;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-card {
+                position: relative;
+                top: 0;
+            }
+
+            .car-header {
+                flex-direction: column;
+            }
+
+            .rating-section {
+                text-align: left;
+                margin-top: 1rem;
+            }
+
+            .gallery-main img {
+                height: 250px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">BookMyStay</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="carrentals.html">Car Rentals</a>
+                <a href="contact.html">Contact</a>
+                <a href="signin.html">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="carrentals.html">Car Rentals</a>
+            <span>❯</span>
+            <span style="color: #0066cc; font-weight: 600;" id="breadcrumbTitle">Hyundai Creta</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Content -->
+        <div>
+            <!-- Gallery -->
+            <div class="gallery">
+                <div class="gallery-main">
+                    <img id="mainImage" src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Car">
+                </div>
+                <div class="gallery-thumbnails" id="thumbnails"></div>
+            </div>
+
+            <!-- Car Info -->
+            <div class="car-info">
+                <div class="car-header">
+                    <div class="car-title">
+                        <h1 id="carName">Hyundai Creta</h1>
+                        <div class="car-type">SUV • Automatic</div>
+                    </div>
+                    <div class="rating-section">
+                        <div class="rating-value">★ 4.8</div>
+                        <div class="rating-count">(2,456 reviews)</div>
+                    </div>
+                </div>
+
+                <!-- Specifications -->
+                <div class="specifications">
+                    <h3>Vehicle Specifications</h3>
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Seats</div>
+                            <div class="spec-value">5</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Fuel Type</div>
+                            <div class="spec-value">Diesel</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Transmission</div>
+                            <div class="spec-value">Automatic</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Mileage</div>
+                            <div class="spec-value">18 km/l</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="features">
+                    <h3>Vehicle Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">🚗 <span>Power Steering</span></div>
+                        <div class="feature-item">🔧 <span>Power Windows</span></div>
+                        <div class="feature-item">❄️ <span>Air Conditioning</span></div>
+                        <div class="feature-item">🔐 <span>Central Locking</span></div>
+                        <div class="feature-item">📻 <span>Touchscreen Infotainment</span></div>
+                        <div class="feature-item">🛡️ <span>Airbags</span></div>
+                        <div class="feature-item">🔊 <span>USB Charging</span></div>
+                        <div class="feature-item">📍 <span>GPS Navigation</span></div>
+                    </div>
+                </div>
+
+                <!-- Policies -->
+                <div class="policies">
+                    <h3>Rental Policies</h3>
+                    <ul>
+                        <li><strong>Minimum Rental Period:</strong> 24 hours</li>
+                        <li><strong>Fuel Policy:</strong> Full tank provided, return full tank</li>
+                        <li><strong>Security Deposit:</strong> ₹10,000 (refundable)</li>
+                        <li><strong>Cancellation:</strong> Free cancellation up to 12 hours before rental</li>
+                        <li><strong>Insurance:</strong> Comprehensive coverage included</li>
+                        <li><strong>Mileage Limit:</strong> Unlimited kilometers</li>
+                        <li><strong>Driver License:</strong> Original license required with International Permit</li>
+                        <li><strong>Age Limit:</strong> Minimum 21 years required</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="booking-card">
+                <div class="price-display">
+                    <div class="price-label">Price per day</div>
+                    <div class="price-value" id="dayPrice">₹5,500</div>
+                </div>
+
+                <!-- Booking Options -->
+                <div class="form-group">
+                    <label>Pick-up Date</label>
+                    <input type="date" id="pickupDate" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
+                </div>
+
+                <div class="form-group">
+                    <label>Drop-off Date</label>
+                    <input type="date" id="dropoffDate" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
+                </div>
+
+                <div class="form-group">
+                    <label>Pick-up Location</label>
+                    <select id="location">
+                        <option>Mumbai</option>
+                        <option>Delhi</option>
+                        <option>Bangalore</option>
+                        <option>Hyderabad</option>
+                        <option>Pune</option>
+                    </select>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div class="price-breakdown">
+                    <div class="breakdown-item">
+                        <span id="breakdownText">₹5,500 × 0 days</span>
+                        <span id="breakdownPrice">₹0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Security Deposit</span>
+                        <span>₹10,000</span>
+                    </div>
+                    <div class="breakdown-item total">
+                        <span>Total Amount</span>
+                        <span class="total-price" id="totalPrice">₹10,000</span>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="button-group">
+                    <button class="btn-primary" onclick="proceedToPayment()">Book Now</button>
+                    <button class="btn-secondary">Save for Later</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const images = [
+            "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1590362891991-f776e74a5a38?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+        ];
+
+        const carData = {
+            name: "Hyundai Creta",
+            type: "SUV",
+            transmission: "Automatic",
+            pricePerDay: 5500,
+            rating: 4.8,
+            reviews: 2456
+        };
+
+        function initGallery() {
+            const thumbnailContainer = document.getElementById('thumbnails');
+            images.forEach((img, idx) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = img;
+                thumbnail.onclick = () => {
+                    document.getElementById('mainImage').src = img;
+                };
+                thumbnailContainer.appendChild(thumbnail);
+            });
+        }
+
+        function calculateDays() {
+            const pickupDate = new Date(document.getElementById('pickupDate').value);
+            const dropoffDate = new Date(document.getElementById('dropoffDate').value);
+            
+            if (pickupDate && dropoffDate && dropoffDate > pickupDate) {
+                const days = Math.ceil((dropoffDate - pickupDate) / (1000 * 60 * 60 * 24));
+                return days;
+            }
+            return 0;
+        }
+
+        function updatePrice() {
+            const days = calculateDays();
+            const pricePerDay = carData.pricePerDay;
+            const rentalPrice = pricePerDay * days;
+            const securityDeposit = 10000;
+            const totalPrice = rentalPrice + securityDeposit;
+
+            document.getElementById('breakdownText').textContent = 
+                `₹${pricePerDay.toLocaleString('en-IN')} × ${days} day${days !== 1 ? 's' : ''}`;
+            document.getElementById('breakdownPrice').textContent = `₹${rentalPrice.toLocaleString('en-IN')}`;
+            document.getElementById('totalPrice').textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
+        }
+
+        function proceedToPayment() {
+            const pickupDate = document.getElementById('pickupDate').value;
+            const dropoffDate = document.getElementById('dropoffDate').value;
+            const location = document.getElementById('location').value;
+
+            if (!pickupDate || !dropoffDate) {
+                alert('Please select pick-up and drop-off dates');
+                return;
+            }
+
+            const days = calculateDays();
+            const bookingData = {
+                carName: carData.name,
+                carImage: images[0],
+                pricePerDay: carData.pricePerDay,
+                days: days,
+                totalPrice: (carData.pricePerDay * days) + 10000,
+                pickupDate,
+                dropoffDate,
+                location
+            };
+
+            sessionStorage.setItem('carBookingData', JSON.stringify(bookingData));
+            window.location.href = 'payment.html';
+        }
+
+        // Add event listeners
+        document.getElementById('pickupDate').addEventListener('change', updatePrice);
+        document.getElementById('dropoffDate').addEventListener('change', updatePrice);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initGallery();
+            updatePrice();
+        });
+    </script>
+</body>
+</html>

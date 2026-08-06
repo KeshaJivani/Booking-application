@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attraction Details | BookMyStay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background-color: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+
+        .breadcrumb-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Gallery */
+        .gallery {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .gallery-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .gallery-thumbnails img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-thumbnails img:hover {
+            opacity: 0.8;
+        }
+
+        /* Attraction Info */
+        .attraction-info {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .attraction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .attraction-title h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .attraction-location {
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .rating-section {
+            text-align: right;
+        }
+
+        .rating-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #eab308;
+            margin-bottom: 0.25rem;
+        }
+
+        .rating-count {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Description */
+        .description {
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            color: #4b5563;
+        }
+
+        .description h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Highlights */
+        .highlights {
+            margin-bottom: 2rem;
+        }
+
+        .highlights h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background-color: #f0f9ff;
+            border-radius: 0.375rem;
+            border: 1px solid #bfdbfe;
+        }
+
+        .highlight-item span {
+            color: #1f2937;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Timings and Info */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .info-card h4 {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .info-card p {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Policies */
+        .policies {
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .policies h3 {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .policies ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .policies li {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .policies li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            height: fit-content;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            position: sticky;
+            top: 100px;
+        }
+
+        .price-display {
+            margin-bottom: 1.5rem;
+        }
+
+        .price-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .price-breakdown {
+            border-top: 1px solid #d1d5db;
+            padding-top: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #6b7280;
+        }
+
+        .breakdown-item.total {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 1rem;
+            border-top: 1px solid #d1d5db;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .total-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #004499;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: white;
+            color: #0066cc;
+            border: 1px solid #0066cc;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f9ff;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-card {
+                position: relative;
+                top: 0;
+            }
+
+            .attraction-header {
+                flex-direction: column;
+            }
+
+            .rating-section {
+                text-align: left;
+                margin-top: 1rem;
+            }
+
+            .gallery-main img {
+                height: 250px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">BookMyStay</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="attractions.html">Attractions</a>
+                <a href="contact.html">Contact</a>
+                <a href="signin.html">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="attractions.html">Attractions</a>
+            <span>❯</span>
+            <span style="color: #0066cc; font-weight: 600;" id="breadcrumbTitle">Taj Mahal</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Content -->
+        <div>
+            <!-- Gallery -->
+            <div class="gallery">
+                <div class="gallery-main">
+                    <img id="mainImage" src="https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Attraction">
+                </div>
+                <div class="gallery-thumbnails" id="thumbnails"></div>
+            </div>
+
+            <!-- Attraction Info -->
+            <div class="attraction-info">
+                <div class="attraction-header">
+                    <div class="attraction-title">
+                        <h1 id="attractionName">Taj Mahal</h1>
+                        <div class="attraction-location">📍 <span id="attractionLocation">Agra, India</span></div>
+                    </div>
+                    <div class="rating-section">
+                        <div class="rating-value">★ 9.5</div>
+                        <div class="rating-count">(2,847 reviews)</div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="description">
+                    <h3>About This Attraction</h3>
+                    <p>
+                        The Taj Mahal is an ivory-white marble mausoleum on the south bank of the Yamuna river in a vast Mughal garden that encompasses nearly 17 hectares, in the Agra District in Uttar Pradesh. Built in 1632, in the memory of his wife Mumtaz Mahal, by Mughal emperor Shah Jahan, it is widely recognized as one of the most exquisite examples of Mughal architecture. It is also considered one of the greatest works of art in the world.
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        A UNESCO World Heritage Site, the Taj Mahal attracts millions of visitors from around the world every year. Its stunning white marble construction, intricate inlay work, and symmetrical gardens make it one of the most photographed monuments in the world. The best time to visit is during the cooler months from October to March.
+                    </p>
+                </div>
+
+                <!-- Highlights -->
+                <div class="highlights">
+                    <h3>Key Highlights</h3>
+                    <div class="highlights-grid">
+                        <div class="highlight-item">🏛️ <span>UNESCO World Heritage Site</span></div>
+                        <div class="highlight-item">🎨 <span>Mughal Architecture</span></div>
+                        <div class="highlight-item">⭐ <span>Symbol of Love</span></div>
+                        <div class="highlight-item">🌅 <span>Sunrise & Sunset Views</span></div>
+                        <div class="highlight-item">📸 <span>Perfect Photography</span></div>
+                        <div class="highlight-item">🌳 <span>Beautiful Gardens</span></div>
+                    </div>
+                </div>
+
+                <!-- Info Cards -->
+                <div class="info-cards">
+                    <div class="info-card">
+                        <h4>🕐 Operating Hours</h4>
+                        <p>6:00 AM - 7:00 PM<br>(Closed on Fridays)</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>📍 Location</h4>
+                        <p>Dharmapuri, Forest Colony, Tajganj, Agra, Uttar Pradesh 282001</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>⏱️ Best Time</h4>
+                        <p>October to March<br>(Morning & Sunset)</p>
+                    </div>
+                </div>
+
+                <!-- Policies -->
+                <div class="policies">
+                    <h3>Important Information</h3>
+                    <ul>
+                        <li><strong>Entry Fee:</strong> ₹250 for Indians, $15 for Foreigners</li>
+                        <li><strong>Dress Code:</strong> Modest clothing is recommended</li>
+                        <li><strong>Photography:</strong> Allowed (tripods not permitted)</li>
+                        <li><strong>Time Required:</strong> 2-3 hours recommended</li>
+                        <li><strong>Guide Service:</strong> Available at an additional cost</li>
+                        <li><strong>Facilities:</strong> Washrooms, restaurants, and shops available</li>
+                        <li><strong>Parking:</strong> Paid parking available nearby</li>
+                        <li><strong>Booking:</strong> Online tickets available on official website</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="booking-card">
+                <div class="price-display">
+                    <div class="price-label">Entry Ticket Price</div>
+                    <div class="price-value" id="ticketPrice">₹250</div>
+                </div>
+
+                <!-- Booking Options -->
+                <div class="form-group">
+                    <label>Visit Date</label>
+                    <input type="date" id="visitDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Number of Tickets</label>
+                    <select id="tickets" onchange="updatePrice()">
+                        <option value="1">1 Ticket</option>
+                        <option value="2">2 Tickets</option>
+                        <option value="3">3 Tickets</option>
+                        <option value="4">4 Tickets</option>
+                        <option value="5">5 Tickets</option>
+                        <option value="6">6+ Tickets</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Visitor Type</label>
+                    <select id="visitorType" onchange="updatePrice()">
+                        <option value="indian">Indian - ₹250</option>
+                        <option value="foreign">Foreigner - ₹1,300</option>
+                        <option value="child">Child (below 15) - Free</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Guided Tour?</label>
+                    <select id="guidedTour" onchange="updatePrice()">
+                        <option value="no">No Guide</option>
+                        <option value="yes">With Guide - ₹500</option>
+                    </select>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div class="price-breakdown">
+                    <div class="breakdown-item">
+                        <span id="breakdownText">₹250 × 1 ticket</span>
+                        <span id="breakdownPrice">₹250</span>
+                    </div>
+                    <div class="breakdown-item" id="guideBreakdown" style="display: none;">
+                        <span>Guided Tour</span>
+                        <span id="guidePrice">₹0</span>
+                    </div>
+                    <div class="breakdown-item total">
+                        <span>Total Amount</span>
+                        <span class="total-price" id="totalPrice">₹250</span>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="button-group">
+                    <button class="btn-primary" onclick="bookTickets()">Book Now</button>
+                    <button class="btn-secondary">Save for Later</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const images = [
+            "https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1489749798305-4fea3ba63d60?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1587474260584-136574528ee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+        ];
+
+        const prices = {
+            indian: 250,
+            foreign: 1300,
+            child: 0
+        };
+
+        const guideCost = 500;
+
+        function initGallery() {
+            const thumbnailContainer = document.getElementById('thumbnails');
+            images.forEach((img, idx) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = img;
+                thumbnail.onclick = () => {
+                    document.getElementById('mainImage').src = img;
+                };
+                thumbnailContainer.appendChild(thumbnail);
+            });
+        }
+
+        function updatePrice() {
+            const tickets = parseInt(document.getElementById('tickets').value);
+            const visitorType = document.getElementById('visitorType').value;
+            const guidedTour = document.getElementById('guidedTour').value;
+
+            const ticketPrice = prices[visitorType];
+            const totalTickets = ticketPrice * tickets;
+            const guideTotal = guidedTour === 'yes' ? guideCost * tickets : 0;
+            const totalPrice = totalTickets + guideTotal;
+
+            const ticketLabel = visitorType === 'child' ? '(Free)' : `₹${ticketPrice}`;
+            document.getElementById('breakdownText').textContent = 
+                `${ticketLabel} × ${tickets} ticket${tickets !== 1 ? 's' : ''}`;
+            document.getElementById('breakdownPrice').textContent = `₹${totalTickets.toLocaleString('en-IN')}`;
+            document.getElementById('ticketPrice').textContent = `₹${ticketPrice.toLocaleString('en-IN')}`;
+
+            const guideBreakdown = document.getElementById('guideBreakdown');
+            if (guideTotal > 0) {
+                guideBreakdown.style.display = 'flex';
+                document.getElementById('guidePrice').textContent = `₹${guideTotal.toLocaleString('en-IN')}`;
+            } else {
+                guideBreakdown.style.display = 'none';
+            }
+
+            document.getElementById('totalPrice').textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
+        }
+
+        function bookTickets() {
+            const visitDate = document.getElementById('visitDate').value;
+            
+            if (!visitDate) {
+                alert('Please select a visit date');
+                return;
+            }
+
+            const tickets = parseInt(document.getElementById('tickets').value);
+            const visitorType = document.getElementById('visitorType').value;
+            const guidedTour = document.getElementById('guidedTour').value;
+            const ticketPrice = prices[visitorType];
+            const totalTickets = ticketPrice * tickets;
+            const guideTotal = guidedTour === 'yes' ? guideCost * tickets : 0;
+            const totalPrice = totalTickets + guideTotal;
+
+            const bookingData = {
+                attractionName: "Taj Mahal",
+                attractionImage: images[0],
+                visitDate: visitDate,
+                tickets: tickets,
+                visitorType: visitorType,
+                guidedTour: guidedTour,
+                totalPrice: totalPrice
+            };
+
+            sessionStorage.setItem('attractionBookingData', JSON.stringify(bookingData));
+            window.location.href = 'payment.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initGallery();
+            updatePrice();
+        });
+    </script>
+</body>
+</html>

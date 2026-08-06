@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment | BookMyStay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 1.5rem 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            width: fit-content;
+            transition: opacity 0.3s;
+        }
+
+        .header-back:hover {
+            opacity: 0.8;
+        }
+
+        .header-content h1 {
+            font-size: 1.875rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Forms Section */
+        .form-section {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-section h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-group input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.75rem;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .payment-option:hover {
+            background-color: #f0f9ff;
+        }
+
+        .payment-option input[type="radio"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+
+        .payment-option label {
+            cursor: pointer;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        /* Card Details */
+        .card-section {
+            display: none;
+        }
+
+        .card-section.active {
+            display: block;
+        }
+
+        /* Terms */
+        .terms-section {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-content {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .terms-content input {
+            margin-top: 0.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+
+        .terms-text {
+            flex: 1;
+        }
+
+        .terms-text strong {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .terms-text p {
+            font-size: 0.9rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 1rem;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: #004499;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            height: fit-content;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-card h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #d1d5db;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+
+        .property-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-location {
+            font-size: 0.85rem;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #d1d5db;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .detail-item strong {
+            color: #1f2937;
+        }
+
+        .detail-item span {
+            color: #6b7280;
+        }
+
+        .price-section {
+            border-top: 1px solid #d1d5db;
+            border-bottom: 1px solid #d1d5db;
+            padding: 1rem 0;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #d1d5db;
+        }
+
+        .total-label {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-amount {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .security-badge {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .security-badge-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .security-badge-title {
+            font-weight: 600;
+            color: #15803d;
+            font-size: 0.95rem;
+        }
+
+        .security-badge-text {
+            font-size: 0.8rem;
+            color: #166534;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                position: relative;
+                top: 0;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-back" onclick="goBack()">
+                ← Back
+            </div>
+            <h1>Complete Payment</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content-grid">
+            <!-- Left Side - Payment Form -->
+            <div>
+                <!-- Guest Details -->
+                <div class="form-section">
+                    <h2>Guest Details</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+91 9876543210" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="form-section">
+                    <h2>Payment Method</h2>
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" id="card" name="payment" value="card" checked onchange="updatePaymentMethod('card')">
+                            <label for="card">💳 Credit/Debit Card</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="upi" name="payment" value="upi" onchange="updatePaymentMethod('upi')">
+                            <label for="upi">📱 UPI</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="netbanking" name="payment" value="netbanking" onchange="updatePaymentMethod('netbanking')">
+                            <label for="netbanking">🏦 Net Banking</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="wallet" name="payment" value="wallet" onchange="updatePaymentMethod('wallet')">
+                            <label for="wallet">👛 Digital Wallet</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Details -->
+                <div id="cardDetails" class="card-section active">
+                    <div class="form-section">
+                        <h2>💳 Card Details</h2>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label for="cardName">Cardholder Name *</label>
+                            <input type="text" id="cardName" name="cardName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label for="cardNumber">Card Number *</label>
+                            <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date *</label>
+                                <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV *</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="form-section">
+                    <div class="terms-section">
+                        <div class="terms-content">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <div class="terms-text">
+                                <strong>I agree to the terms and conditions</strong>
+                                <p>By proceeding with payment, you agree to our cancellation policy and terms of service. Your booking is confirmed once payment is received.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="submitPayment()" id="submitBtn">
+                            🔒 Complete Payment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Summary -->
+            <div class="sidebar">
+                <div class="summary-card">
+                    <h3>Booking Summary</h3>
+
+                    <!-- Property -->
+                    <img id="summaryImage" src="" alt="Hotel" class="property-image">
+                    <div class="property-name" id="summaryName">Grand Hyatt Mumbai</div>
+                    <div class="property-location">
+                        📍 <span id="summaryLocation">Santacruz East, Mumbai</span>
+                    </div>
+
+                    <!-- Booking Details -->
+                    <div class="detail-item">
+                        <span>📅</span>
+                        <div>
+                            <strong>Duration</strong><br>
+                            <span id="durationText">2 nights</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <span>👥</span>
+                        <div>
+                            <strong>Guests & Rooms</strong><br>
+                            <span id="guestRoomText">2 guests • 1 room</span>
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="price-section">
+                        <div class="price-item">
+                            <span>Room Total</span>
+                            <span id="summaryTotal">₹24,000</span>
+                        </div>
+                        <div class="price-item" style="color: #16a34a;">
+                            <span>Taxes & Fees</span>
+                            <span>Included</span>
+                        </div>
+                    </div>
+
+                    <div class="total-section">
+                        <div class="total-label">Total Amount</div>
+                        <div class="total-amount" id="totalAmount">₹24,000</div>
+                    </div>
+
+                    <!-- Security Badge -->
+                    <div class="security-badge">
+                        <div class="security-badge-icon">🔒</div>
+                        <div class="security-badge-title">Secure Payment</div>
+                        <div class="security-badge-text">256-bit SSL Encryption</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Load booking data from sessionStorage
+        function loadBookingData() {
+            const bookingData = JSON.parse(sessionStorage.getItem('bookingData')) || {
+                propertyName: "Grand Hyatt Mumbai",
+                propertyLocation: "Santacruz East, Mumbai",
+                propertyImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                guests: 2,
+                rooms: 1,
+                nights: 2,
+                totalPrice: 24000
+            };
+
+            // Update summary
+            document.getElementById('summaryImage').src = bookingData.propertyImage;
+            document.getElementById('summaryName').textContent = bookingData.propertyName;
+            document.getElementById('summaryLocation').textContent = bookingData.propertyLocation;
+            document.getElementById('durationText').textContent = `${bookingData.nights} night${bookingData.nights > 1 ? 's' : ''}`;
+            document.getElementById('guestRoomText').textContent = 
+                `${bookingData.guests} guest${bookingData.guests > 1 ? 's' : ''} • ${bookingData.rooms} room${bookingData.rooms > 1 ? 's' : ''}`;
+            document.getElementById('summaryTotal').textContent = `₹${bookingData.totalPrice.toLocaleString('en-IN')}`;
+            document.getElementById('totalAmount').textContent = `₹${bookingData.totalPrice.toLocaleString('en-IN')}`;
+
+            return bookingData;
+        }
+
+        let currentBookingData = {};
+
+        function updatePaymentMethod(method) {
+            const cardDetails = document.getElementById('cardDetails');
+            if (method === 'card') {
+                cardDetails.classList.add('active');
+            } else {
+                cardDetails.classList.remove('active');
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function submitPayment() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const terms = document.getElementById('terms').checked;
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+            if (!firstName || !lastName || !email || !phone) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            if (!terms) {
+                alert('Please accept the terms and conditions');
+                return;
+            }
+
+            if (paymentMethod === 'card') {
+                const cardNumber = document.getElementById('cardNumber').value;
+                const expiry = document.getElementById('expiry').value;
+                const cvv = document.getElementById('cvv').value;
+
+                if (!cardNumber || !expiry || !cvv) {
+                    alert('Please fill in all card details');
+                    return;
+                }
+            }
+
+            // Disable button and show processing
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Processing Payment...';
+
+            // Simulate payment processing
+            setTimeout(() => {
+                const bookingConfirmation = {
+                    bookingId: 'BK' + Date.now(),
+                    guestName: firstName + ' ' + lastName,
+                    ...currentBookingData
+                };
+
+                sessionStorage.setItem('bookingConfirmation', JSON.stringify(bookingConfirmation));
+                window.location.href = 'successfullybook.html';
+            }, 2000);
+        }
+
+        // Format card number input
+        document.getElementById('cardNumber')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            e.target.value = formattedValue;
+        });
+
+        // Format expiry date input
+        document.getElementById('expiry')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            currentBookingData = loadBookingData();
+        });
+    </script>
+</body>
+</html>

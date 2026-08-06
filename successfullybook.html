@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed | BookMyStay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-content p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: -2rem auto 0;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Confirmation Card */
+        .confirmation-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .confirmation-header {
+            text-align: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
+        }
+
+        .confirmation-header p {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-id {
+            font-family: 'Courier New', monospace;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 1rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            color: #15803d;
+            font-weight: 600;
+        }
+
+        .guest-name-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .guest-name-section p {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .guest-name-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        /* Property & Booking Details */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .property-section img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .property-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-location {
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .quick-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-box {
+            background-color: #f0f9ff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .info-subtext {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        /* Duration Grid */
+        .duration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .duration-item {
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .duration-label {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .duration-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .duration-subtext {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        /* Price Summary */
+        .price-summary {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .price-summary h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
+        }
+
+        .price-divider {
+            border-top: 1px solid #bfdbfe;
+            margin: 0.75rem 0;
+        }
+
+        .total-price-item {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: #1f2937;
+        }
+
+        /* Important Info */
+        .important-info {
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .important-info h3 {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .important-info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .important-info li {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .important-info li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Cancellation Policy */
+        .cancellation-policy {
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cancellation-policy h3 {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .cancellation-policy p {
+            color: #4b5563;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .cancellation-policy a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .cancellation-policy a:hover {
+            text-decoration: underline;
+        }
+
+        /* What's Next */
+        .whats-next {
+            background-color: #f0f9ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .whats-next h3 {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .whats-next ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .whats-next li {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
+        }
+
+        .whats-next li strong {
+            color: #0066cc;
+            min-width: 30px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            border: 1px solid #d1d5db;
+            color: #1f2937;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f3f4f6;
+        }
+
+        .btn-primary {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #004499;
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media print {
+            .action-buttons,
+            .cta-buttons {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content h1 {
+                font-size: 1.875rem;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .confirmation-card {
+                padding: 1rem;
+            }
+
+            .action-buttons,
+            .cta-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="success-icon">✓</div>
+            <h1>Booking Confirmed!</h1>
+            <p>Your reservation has been successfully confirmed</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="confirmation-card">
+            <!-- Confirmation Header -->
+            <div class="confirmation-header">
+                <p>Booking Confirmation Number</p>
+                <div class="booking-id" id="bookingId">BK1734238400000</div>
+                <span class="status-badge">✓ Confirmed</span>
+            </div>
+
+            <!-- Guest Name -->
+            <div class="guest-name-section">
+                <p>Guest Name</p>
+                <div class="guest-name-value" id="guestNameDisplay">John Doe</div>
+            </div>
+
+            <!-- Property & Booking Details -->
+            <div class="details-grid">
+                <div class="property-section">
+                    <img id="propertyImage" src="" alt="Hotel">
+                    <div class="property-name" id="propertyName">Grand Hyatt Mumbai</div>
+                    <div class="property-location">📍 <span id="propertyLocation">Santacruz East, Mumbai</span></div>
+                </div>
+                <div class="quick-info">
+                    <div class="info-box">
+                        <div class="info-label">Check-In</div>
+                        <div class="info-value" id="checkInDate">Mon 12 Aug 2025</div>
+                        <div class="info-subtext">From 2:00 PM</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-label">Check-Out</div>
+                        <div class="info-value" id="checkOutDate">Wed 14 Aug 2025</div>
+                        <div class="info-subtext">By 11:00 AM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Duration Grid -->
+            <div class="duration-grid">
+                <div class="duration-item">
+                    <div class="duration-label">Duration</div>
+                    <div class="duration-value" id="nightsValue">2</div>
+                    <div class="duration-subtext" id="nightsLabel">Nights</div>
+                </div>
+                <div class="duration-item">
+                    <div class="duration-label">Number of Guests</div>
+                    <div class="duration-value" id="guestsValue">2</div>
+                    <div class="duration-subtext" id="guestsLabel">Guests</div>
+                </div>
+                <div class="duration-item">
+                    <div class="duration-label">Number of Rooms</div>
+                    <div class="duration-value" id="roomsValue">1</div>
+                    <div class="duration-subtext" id="roomsLabel">Room</div>
+                </div>
+            </div>
+
+            <!-- Price Summary -->
+            <div class="price-summary">
+                <h3>Payment Summary</h3>
+                <div class="price-item">
+                    <span>Room Charges</span>
+                    <span id="roomCharges">₹24,000</span>
+                </div>
+                <div class="price-item">
+                    <span>Taxes & Fees</span>
+                    <span style="color: #16a34a;">Included</span>
+                </div>
+                <div class="price-divider"></div>
+                <div class="total-price-item">
+                    <span>Total Amount Paid</span>
+                    <span id="totalAmountPaid">₹24,000</span>
+                </div>
+            </div>
+
+            <!-- Important Information -->
+            <div class="important-info">
+                <h3>Important Information</h3>
+                <ul>
+                    <li>A confirmation email has been sent to your registered email address</li>
+                    <li>Please carry a valid ID proof at the time of check-in</li>
+                    <li>Free cancellation is available until 48 hours before check-in</li>
+                    <li>Contact us at support@bookmystay.com for any queries</li>
+                </ul>
+            </div>
+
+            <!-- Cancellation Policy -->
+            <div class="cancellation-policy">
+                <h3>Cancellation Policy</h3>
+                <p>You can cancel your booking free of charge up to 48 hours before check-in. Cancellations made within 48 hours of check-in will incur a charge equal to the first night's accommodation.</p>
+                <a href="#">View full cancellation policy →</a>
+            </div>
+
+            <!-- What's Next -->
+            <div class="whats-next">
+                <h3>What's Next?</h3>
+                <ol>
+                    <li><strong>1.</strong> A confirmation email will be sent to your registered email address</li>
+                    <li><strong>2.</strong> You can manage your booking from your account dashboard</li>
+                    <li><strong>3.</strong> Arrive at the property on your check-in date at 2:00 PM</li>
+                    <li><strong>4.</strong> Check out by 11:00 AM on your checkout date</li>
+                </ol>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="printBooking()">🖨️ Print Booking</button>
+                <button class="btn btn-secondary" onclick="downloadPDF()">⬇️ Download PDF</button>
+                <button class="btn btn-secondary" onclick="shareBooking()">📤 Share Booking</button>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="bookAnother()">Book Another Stay</button>
+                <button class="btn btn-secondary" onclick="goHome()">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function loadConfirmationData() {
+            const confirmation = JSON.parse(sessionStorage.getItem('bookingConfirmation')) || {
+                bookingId: "BK1734238400000",
+                guestName: "John Doe",
+                propertyName: "Grand Hyatt Mumbai",
+                propertyLocation: "Santacruz East, Mumbai",
+                propertyImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                guests: 2,
+                rooms: 1,
+                nights: 2,
+                totalPrice: 24000
+            };
+
+            // Update header
+            document.getElementById('bookingId').textContent = confirmation.bookingId;
+            document.getElementById('guestNameDisplay').textContent = confirmation.guestName;
+
+            // Update property details
+            document.getElementById('propertyImage').src = confirmation.propertyImage;
+            document.getElementById('propertyName').textContent = confirmation.propertyName;
+            document.getElementById('propertyLocation').textContent = confirmation.propertyLocation;
+
+            // Update dates (starting tomorrow)
+            const checkInDate = new Date();
+            checkInDate.setDate(checkInDate.getDate() + 1);
+            const checkOutDate = new Date(checkInDate);
+            checkOutDate.setDate(checkOutDate.getDate() + confirmation.nights);
+
+            const dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('checkInDate').textContent = 
+                checkInDate.toLocaleDateString('en-IN', dateOptions);
+            document.getElementById('checkOutDate').textContent = 
+                checkOutDate.toLocaleDateString('en-IN', dateOptions);
+
+            // Update duration
+            document.getElementById('nightsValue').textContent = confirmation.nights;
+            document.getElementById('nightsLabel').textContent = confirmation.nights > 1 ? 'Nights' : 'Night';
+            
+            document.getElementById('guestsValue').textContent = confirmation.guests;
+            document.getElementById('guestsLabel').textContent = confirmation.guests > 1 ? 'Guests' : 'Guest';
+            
+            document.getElementById('roomsValue').textContent = confirmation.rooms;
+            document.getElementById('roomsLabel').textContent = confirmation.rooms > 1 ? 'Rooms' : 'Room';
+
+            // Update prices
+            document.getElementById('roomCharges').textContent = `₹${confirmation.totalPrice.toLocaleString('en-IN')}`;
+            document.getElementById('totalAmountPaid').textContent = `₹${confirmation.totalPrice.toLocaleString('en-IN')}`;
+        }
+
+        function printBooking() {
+            window.print();
+        }
+
+        function downloadPDF() {
+            alert('Downloading booking confirmation PDF...');
+        }
+
+        function shareBooking() {
+            alert('Sharing booking details...');
+        }
+
+        function bookAnother() {
+            window.location.href = 'booknow.html';
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadConfirmationData);
+    </script>
+</body>
+</html>

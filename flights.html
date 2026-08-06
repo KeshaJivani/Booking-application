@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Flights | BookMyStay</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: bold; color: #0066cc; }
+        nav { display: flex; gap: 2rem; }
+        nav a { text-decoration: none; color: #666; font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: #0066cc; }
+
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content { max-width: 1400px; margin: 0 auto; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+        .search-section {
+            max-width: 1400px;
+            margin: -2rem auto 2rem;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-form {
+            background: #fcd34d;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .trip-type { display: flex; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .trip-type label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 600; }
+        .trip-type input { cursor: pointer; }
+
+        .form-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .search-btn {
+            background-color: #0066cc;
+            color: white;
+            padding: 0.90rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            align-self: flex-end;
+            margin-top: 0.5rem;
+        }
+
+        .search-btn:hover { background-color: #004499; }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .filter-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #fcd34d;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .filter-item input { cursor: pointer; }
+        .filter-item label { cursor: pointer; font-size: 0.9rem; }
+
+        .flights-section { background: white; }
+        .flights-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; }
+
+        .flight-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            transition: all 0.3s;
+        }
+
+        .flight-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border-color: #0066cc;
+        }
+
+        .flight-airline {
+            flex: 0 0 auto;
+            min-width: 150px;
+        }
+
+        .airline-name {
+            font-weight: bold;
+            color: #0066cc;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stop-badge {
+            display: inline-block;
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .flight-timing {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .time {
+            text-align: center;
+        }
+
+        .time-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .duration {
+            text-align: center;
+            flex: 0 0 150px;
+        }
+
+        .duration-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .duration-line {
+            height: 2px;
+            background: linear-gradient(90deg, #0066cc, #fcd34d);
+            margin-bottom: 0.5rem;
+        }
+
+        .flight-price {
+            flex: 0 0 auto;
+            text-align: right;
+            min-width: 150px;
+        }
+
+        .price-value {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-btn {
+            width: 100%;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .book-btn:hover { background-color: #004499; }
+
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content { grid-template-columns: 1fr; }
+            .filters { position: static; }
+            .flight-card { flex-direction: column; gap: 1rem; }
+            .flight-timing { flex-direction: column; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">BookMyStay</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="stays.html">Stays</a>
+                <a href="flights.html" style="color: #0066cc;">Flights</a>
+                <a href="carrentals.html">Car Rentals</a>
+                <a href="attractions.html">Attractions</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Book Your Flight</h1>
+            <p>Find the best flight deals to your favorite destinations worldwide</p>
+        </div>
+    </section>
+
+    <section class="search-section">
+        <form class="search-form">
+            <div class="trip-type">
+                <label><input type="radio" name="trip" value="roundtrip" checked> Round Trip</label>
+                <label><input type="radio" name="trip" value="oneway"> One Way</label>
+                <label><input type="radio" name="trip" value="multicity"> Multi-City</label>
+            </div>
+
+            <div class="form-inputs">
+                <div class="form-group">
+                    <label for="from">From</label>
+                    <input type="text" id="from" placeholder="Departure city" value="Delhi" required>
+                </div>
+                <div class="form-group">
+                    <label for="to">To</label>
+                    <input type="text" id="to" placeholder="Arrival city" value="Mumbai" required>
+                </div>
+                <div class="form-group">
+                    <label for="depart">Depart</label>
+                    <input type="date" id="depart" required>
+                </div>
+                <div class="form-group">
+                    <label for="return">Return</label>
+                    <input type="date" id="return" required>
+                </div>
+                <button type="submit" class="search-btn">Search</button>
+            </div>
+        </form>
+    </section>
+
+    <div class="main-content">
+        <div class="filters">
+            <div class="filter-title">Filter Flights</div>
+
+            <div class="filter-section">
+                <h4>Budget</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="budget1">
+                    <label for="budget1">Budget (₹5K - ₹10K)</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="budget2">
+                    <label for="budget2">Standard (₹10K - ₹25K)</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="budget3">
+                    <label for="budget3">Premium (₹25K+)</label>
+                </div>
+            </div>
+
+            <div class="filter-section" style="border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+                <h4>Airlines</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="airline1">
+                    <label for="airline1">Air India</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="airline2">
+                    <label for="airline2">IndiGo</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="airline3">
+                    <label for="airline3">SpiceJet</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="airline4">
+                    <label for="airline4">Vistara</label>
+                </div>
+            </div>
+
+            <div class="filter-section" style="border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+                <h4>Stops</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="stops1" checked>
+                    <label for="stops1">Non-stop</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="stops2">
+                    <label for="stops2">1+ Stops</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="flights-section">
+            <h2 class="flights-title">Available Flights (Delhi → Mumbai)</h2>
+            <div id="flightsList"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const flights = [
+            { id: 1, airline: "Air India", departure: "08:00 AM", arrival: "11:30 AM", duration: "3h 30m", price: 8500, stops: 0 },
+            { id: 2, airline: "IndiGo", departure: "10:15 AM", arrival: "01:45 PM", duration: "3h 30m", price: 7200, stops: 0 },
+            { id: 3, airline: "SpiceJet", departure: "12:00 PM", arrival: "03:30 PM", duration: "3h 30m", price: 6800, stops: 0 },
+            { id: 4, airline: "Vistara", departure: "02:30 PM", arrival: "06:00 PM", duration: "3h 30m", price: 9200, stops: 0 },
+            { id: 5, airline: "Air India", departure: "04:45 PM", arrival: "08:15 PM", duration: "3h 30m", price: 8900, stops: 0 },
+            { id: 6, airline: "IndiGo", departure: "06:00 PM", arrival: "09:30 PM", duration: "3h 30m", price: 7500, stops: 0 }
+        ];
+
+        function initializeFlights() {
+            const flightsList = document.getElementById('flightsList');
+            flightsList.innerHTML = flights.map(flight => `
+                <div class="flight-card">
+                    <div class="flight-airline">
+                        <div class="airline-name">${flight.airline}</div>
+                        <span class="stop-badge">${flight.stops === 0 ? 'Non-Stop' : flight.stops + ' Stop(s)'}</span>
+                    </div>
+                    <div class="flight-timing">
+                        <div class="time">
+                            <div class="time-value">${flight.departure}</div>
+                            <div class="time-label">Depart</div>
+                        </div>
+                        <div class="duration">
+                            <div class="duration-text">${flight.duration}</div>
+                            <div class="duration-line"></div>
+                        </div>
+                        <div class="time">
+                            <div class="time-value">${flight.arrival}</div>
+                            <div class="time-label">Arrive</div>
+                        </div>
+                    </div>
+                    <div class="flight-price">
+                        <div class="price-value">₹${flight.price.toLocaleString('en-IN')}</div>
+                        <button class="book-btn">Book Now</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeFlights);
+    </script>
+</body>
+</html>

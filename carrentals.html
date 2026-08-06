@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent a Car | BookMyStay</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: bold; color: #0066cc; }
+        nav { display: flex; gap: 2rem; }
+        nav a { text-decoration: none; color: #666; font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: #0066cc; }
+
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+        .search-section {
+            max-width: 1400px;
+            margin: -2rem auto 2rem;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-form {
+            background: #fcd34d;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .search-btn {
+            background-color: #0066cc;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            align-self: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .search-btn:hover { background-color: #004499; }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .filter-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #fcd34d;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .filter-item input { cursor: pointer; }
+        .filter-item label { cursor: pointer; font-size: 0.9rem; }
+
+        .cars-section { background: white; }
+        .cars-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .car-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .car-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            position: relative;
+        }
+
+        .car-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .rating-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #fcd34d;
+            color: #333;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .car-content {
+            padding: 1.5rem;
+        }
+
+        .car-name {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 0.25rem;
+        }
+
+        .car-type {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .car-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 0.75rem;
+        }
+
+        .car-price-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .rent-btn {
+            width: 100%;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .rent-btn:hover { background-color: #004499; }
+
+        footer {
+            background-color: #1f2937;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content { grid-template-columns: 1fr; }
+            .filters { position: static; }
+            .cars-grid { grid-template-columns: 1fr; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">BookMyStay</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="stays.html">Stays</a>
+                <a href="flights.html">Flights</a>
+                <a href="carrentals.html" style="color: #0066cc;">Car Rentals</a>
+                <a href="attractions.html">Attractions</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Rent a Car</h1>
+            <p>Explore at your own pace with our premium car rental services</p>
+        </div>
+    </section>
+
+    <section class="search-section">
+        <form class="search-form" onsubmit="handleSearch(event)">
+            <div class="form-group">
+                <label for="location">📍 Pick-up Location</label>
+                <input type="text" id="location" placeholder="Pick-up city" required>
+            </div>
+            <div class="form-group">
+                <label for="checkIn">📅 Pick-up Date</label>
+                <input type="date" id="checkIn" required>
+            </div>
+            <div class="form-group">
+                <label for="checkOut">📅 Drop-off Date</label>
+                <input type="date" id="checkOut" required>
+            </div>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </section>
+
+    <div class="main-content">
+        <div class="filters">
+            <div class="filter-title">Filter Cars</div>
+
+            <div class="filter-section">
+                <h4>Price/Day</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="price1">
+                    <label for="price1">Economy (₹2K - ₹4K)</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="price2">
+                    <label for="price2">Compact (₹4K - ₹7K)</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="price3">
+                    <label for="price3">Premium (₹7K+)</label>
+                </div>
+            </div>
+
+            <div class="filter-section" style="border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+                <h4>Car Type</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="type1">
+                    <label for="type1">Sedan</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="type2">
+                    <label for="type2">SUV</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="type3">
+                    <label for="type3">Hatchback</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="type4">
+                    <label for="type4">Van</label>
+                </div>
+            </div>
+
+            <div class="filter-section" style="border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+                <h4>Transmission</h4>
+                <div class="filter-item">
+                    <input type="checkbox" id="trans1">
+                    <label for="trans1">Automatic</label>
+                </div>
+                <div class="filter-item">
+                    <input type="checkbox" id="trans2">
+                    <label for="trans2">Manual</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="cars-section">
+            <h2 class="cars-title">Available Cars</h2>
+            <div class="cars-grid" id="carsList"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 BookMyStay. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const cars = [
+            { id: 1, name: "Maruti Swift", type: "Hatchback", price: 3000, rating: 4.5, seats: 5, fuel: "Petrol", transmission: "Manual", image: "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "Hyundai Creta", type: "SUV", price: 5500, rating: 4.8, seats: 5, fuel: "Diesel", transmission: "Automatic", image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "Toyota Innova", type: "Van", price: 6000, rating: 4.7, seats: 8, fuel: "Diesel", transmission: "Manual", image: "https://images.unsplash.com/photo-1581922261290-991b38693d1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "Honda City", type: "Sedan", price: 4000, rating: 4.6, seats: 5, fuel: "Petrol", transmission: "Automatic", image: "https://images.unsplash.com/photo-1590362891991-f776e74a5a38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "Mahindra XUV500", type: "SUV", price: 6500, rating: 4.7, seats: 5, fuel: "Diesel", transmission: "Automatic", image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "Skoda Superb", type: "Sedan", price: 7500, rating: 4.9, seats: 5, fuel: "Petrol", transmission: "Automatic", image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        function initializeCars() {
+            const carsList = document.getElementById('carsList');
+            carsList.innerHTML = cars.map(car => `
+                <div class="car-card">
+                    <div class="car-image-container">
+                        <img src="${car.image}" alt="${car.name}" class="car-image">
+                        <div class="rating-tag">★ ${car.rating}</div>
+                    </div>
+                    <div class="car-content">
+                        <div class="car-name">${car.name}</div>
+                        <div class="car-type">${car.type}</div>
+                        <div class="car-features">
+                            <div>👥 ${car.seats} Seats</div>
+                            <div>⚡ ${car.fuel}</div>
+                            <div>🚗 ${car.transmission}</div>
+                        </div>
+                        <div class="car-price">₹${car.price}<span class="car-price-label">/day</span></div>
+                        <a href="cardetails.html" class="rent-btn">Rent Now</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            alert('Search functionality active!');
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeCars);
+    </script>
+</body>
+</html>
